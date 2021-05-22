@@ -24,7 +24,7 @@
   
 #>
 		
-#--------------------------------------------------[Run script in 64bit]-----------------------------------------------------------
+#----------------------------------------------------[Run script in 64bit]-------------------------------------------------------
 
 If ($ENV:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
 	Try { &"$ENV:WINDIR\SysNative\WindowsPowershell\v1.0\PowerShell.exe" -File $PSCOMMANDPATH }
@@ -32,7 +32,7 @@ If ($ENV:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
 	Exit
 }
 
-#---------------------------------------------------------[Input]------------------------------------------------------------------
+#-----------------------------------------------------------[Input]--------------------------------------------------------------
 
 ## Load the Config.xml
 [Xml]$Settings = Get-Content "$($PSScriptRoot)\IntuneConfig.xml"
@@ -40,7 +40,7 @@ $Present = Get-Date -Format "yyyy/MM/dd HH:mm"
 $Package = $($Settings.config.App.Packagename) + " " + $($Settings.config.App.AppVersion)
 $MessageInput =  "Setting Variables for $($Settings.config.BrandName); $($Settings.config.App.Packagename), $($Settings.config.App.AppVersion), Install folder: $PSScriptRoot"
 
-#-----------------------------------------------------[Initialisation]-------------------------------------------------------------
+#-------------------------------------------------------[Initialisation]---------------------------------------------------------
 
 #Create Company-directory & Eventlog
 New-EventLog -LogName $($Settings.config.BrandName) -Source $Package -ErrorAction SilentlyContinue
@@ -49,7 +49,7 @@ New-EventLog -LogName $($Settings.config.BrandName) -Source $Package -ErrorActio
 # $MessageInitialisation = "Created `"$($env:ProgramData)\$($Settings.config.BrandName)`""
 # }
 
-#-----------------------------------------------------------[Functions]------------------------------------------------------------
+#---------------------------------------------------------[Functions]------------------------------------------------------------
 
 Function WriteEventlog {
 		Param ( 
@@ -85,7 +85,7 @@ Function UnregisterInstallation() {
 EXIT $ErrorLevel
 } 	
 
-#-----------------------------------------------------------[Execution]------------------------------------------------------------
+#---------------------------------------------------------[Execution]------------------------------------------------------------
 
 WriteEventlog -GetMessage $MessageInput
 
