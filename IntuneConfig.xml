@@ -1,5 +1,11 @@
-<Config> 
-  <Brandname>NAME</Brandname>
-  <Packagename>Teamviewer Host 15.17.6_v3</Packagename>
-  <Version>3.0</Version>
+<Config>
+  <Brandname>Moba</Brandname>
+  <App>
+    <Packagename>Teamviewer Host</Packagename>
+    <AppVersion>v15.17.6</AppVersion>
+    <PackVersion>1.0</PackVersion>
+  </App>
+  <log>1</log>
+  <EventLogSrc>MEM_PS_Installer2</EventLogSrc>
+  <SetReg>1</SetReg> 
 </Config>
