@@ -4,25 +4,18 @@
 
 .DESCRIPTION
   This script is a framework and standardisation for installing apps focussed on Intune.
-  It performs an install or uninstall depending on the "type" parameter
-  Vars
-  $PSScriptRoot
-  $($Settings.config.BrandName)
-  $($Settings.config.App.Packagename)
-  $($Settings.config.App.AppVersion)
-  $($Settings.config.App.PackVersion)
-  $($Settings.config.EventLogSrc)
+  It performs an install or uninstall depending on the "type" parameter.
   
 .INPUTS
   -Type		The type of deployment to perform. Options: [Install, Uninstall]. Default is: Install.
 
 .OUTPUTS
-  Log file: %SystemRoot%\System32\Winevt\Logs\NAME.evtx
-  Registry Enry: HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\
+  Registry Entry: HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\
+  Eventlog Entry: in BrandName log
 
 .EXAMPLE
-	powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Install""
-	powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
+  powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1
+  powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
 	
 .NOTES
   Version:        1.8
@@ -41,12 +34,6 @@ If ($ENV:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
 
 #---------------------------------------------------------[Input]------------------------------------------------------------------
 
-#Set Default parameter
-#	Param(
-#		[Parameter(Mandatory=$True)][String]$Type
-#        $Type = "Install"
-#	)
-
 ## Load the Config.xml
 [Xml]$Settings = Get-Content "$($PSScriptRoot)\IntuneConfig.xml"
 $Present = Get-Date -Format "yyyy/MM/dd HH:mm"
@@ -60,7 +47,7 @@ New-EventLog -LogName $($Settings.config.BrandName) -Source $Package -ErrorActio
 # if(!(Test-Path "$($env:ProgramData)\$($Settings.config.BrandName)")) { 
 # New-Item -Path "$($env:ProgramData)" -Name "$($Settings.config.BrandName)" -ItemType "directory" -Force -ErrorAction SilentlyContinue
 # $MessageInitialisation = "Created `"$($env:ProgramData)\$($Settings.config.BrandName)`""
-# }    
+# }
 
 #-----------------------------------------------------------[Functions]------------------------------------------------------------
 
@@ -102,37 +89,36 @@ EXIT $ErrorLevel
 
 WriteEventlog -GetMessage $MessageInput
 
-## Do not remove, setting error level to zero before installation
-$Error.Clear()
-
 If ($Type -ine 'Uninstall') {
-	
-																			  WriteEventlog -GetMessage "Starting Prerequisits"
-	#[Prerequisits]----------------------------------------------------------------------------------------------[Prerequisits]
+																				WriteEventlog -GetMessage "Starting Prerequisits"
+#[Prerequisits]----------------------------------------------------------------------------------------------------[Prerequisits]
 
-	#[/Prerequisits]--------------------------------------------------------------------------------------------[/Prerequisits]
-																			 WriteEventlog -GetMessage "Finishing Prerequisits"
-	
-																			  WriteEventlog -GetMessage "Starting Installation"
-	#[Instalation]------------------------------------------------------------------------------------------------[Instalation]
-	New-EventLog -LogName $($Settings.config.BrandName) -Source $Package			
-	#[/Instalation]----------------------------------------------------------------------------------------------[/Instalation]
-																			 WriteEventlog -GetMessage "Finishing Installation"		
+#[/Prerequisits]--------------------------------------------------------------------------------------------------[/Prerequisits]
+																			   WriteEventlog -GetMessage "Finishing Prerequisits"
+																			   									   $Error.Clear()
+		
+																				WriteEventlog -GetMessage "Starting Installation"
+#[Instalation]------------------------------------------------------------------------------------------------------[Instalation]
+		
+#[/Instalation]----------------------------------------------------------------------------------------------------[/Instalation]
+																			   WriteEventlog -GetMessage "Finishing Installation"		
 
-	If ($Error.Count -gt 0) {
-		RegisterInstallation -ErrorLevel 101
-	} else {
-		RegisterInstallation -ErrorLevel 0
-	}
+		If ($Error.Count -gt 0) {
+			RegisterInstallation -ErrorLevel 101
+		} else {
+			RegisterInstallation -ErrorLevel 0
+		}
 
 }
+
 ElseIf ($Type -ieq 'Uninstall') {
 	
-																			WriteEventlog -GetMessage "Strating Uninstallation"
-	#[Uninstallation]------------------------------------------------------------------------------------------[Uninstallation]
-			
-	#[/Uninstallation]----------------------------------------------------------------------------------------[/Uninstallation]
-																		   WriteEventlog -GetMessage "Finishing Uninstallation"
+																						                           $Error.Clear()
+																			  WriteEventlog -GetMessage "Starting Uninstallation"
+#[Uninstallation]------------------------------------------------------------------------------------------------[Uninstallation]
+		
+#[/Uninstallation]----------------------------------------------------------------------------------------------[/Uninstallation]
+																		     WriteEventlog -GetMessage "Finishing Uninstallation"
 
 	If ($Error.Count -gt 0) {
 		UnregisterInstallation -ErrorLevel 101
@@ -140,10 +126,6 @@ ElseIf ($Type -ieq 'Uninstall') {
 		UnregisterInstallation -ErrorLevel 0	
 	}
 	
-
-
 }
 
 #------------------------------------------------------------[Exiting]-------------------------------------------------------------
-
-
