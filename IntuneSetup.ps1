@@ -23,7 +23,9 @@
   Creation Date:  2021-05-19
   
 #>
-		
+
+param ($Type)
+
 #----------------------------------------------------[Run script in 64bit]-------------------------------------------------------
 
 If ($ENV:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
@@ -66,21 +68,20 @@ Function RegisterInstallation() {
 	)
 	If ($ErrorLevel -eq "0") {
 		WriteEventlog -GetMessage "Create Registry installation key HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$Package"
-		New-Item -Path Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)" -type Directory -Force -ErrorAction SilentlyContinue
-		new-itemproperty Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)" -Name "Installed" -Value $Present -PropertyType String -Force -ErrorAction SilentlyContinue
+		New-Item -Path Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)" -type Directory -Force -ErrorAction SilentlyContinue
+		new-itemproperty Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)" -Name "Installed" -Value $Present -PropertyType String -Force -ErrorAction SilentlyContinue
 	} Else {
 		WriteEventlog -GetMessage "Error during installation $Error, total errors: $($error.count)"
 	}
 EXIT $ErrorLevel
 } 
-
 Function UnregisterInstallation() {
 	Param(
 		[Parameter(Mandatory=$True)][String]$ErrorLevel
 	)
 	If ($ErrorLevel -eq "0") {
-		WriteEventlog -GetMessage "Delete Registry installation key HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$Package"
-		Remove-Item -Path "HKLM:\SOFTWARE\$($Settings.config.BrandName)\Packages\$Package" -Force
+		WriteEventlog -GetMessage "Deleted Registry installation key HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)"
+		Remove-Item -Path Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)" -Force
 } 
 EXIT $ErrorLevel
 } 	
