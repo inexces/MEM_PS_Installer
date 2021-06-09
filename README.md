@@ -20,7 +20,7 @@ powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\Intun
 powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
 	
 ## .NOTES
-- Version:        1.8
+- Version:        1.8.1
 - Author:         Marcus Jaken ~ Microsoft ☁ Consultant @ Advantive B.V / marcus.jaken@advantive.nl
 - Creation Date:  2021
 
