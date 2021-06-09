@@ -6,6 +6,6 @@
     <PackVersion>1.0</PackVersion>
   </App>
   <log>1</log>
-  <EventLogSrc>MEM_PS_Installer2</EventLogSrc>
+  <EventLogSrc>MEM_PS_Installer</EventLogSrc>
   <SetReg>1</SetReg> 
 </Config>

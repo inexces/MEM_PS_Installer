@@ -72,3 +72,8 @@ powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\Intun
 	$ShortCut.Arguments="`"C:\Program Files\BGInfo\custom.bgi`" /timer:0 /silent /nolicprompt"
 	$ShortCut.IconLocation = "Bginfo64.exe, 0";
 	$ShortCut.Save()
+###### Create Script support folder
+	if(!(Test-Path "$($env:ProgramData)\$($Settings.config.BrandName)")) { 
+		New-Item -Path "$($env:ProgramData)" -Name "$($Settings.config.BrandName)" -ItemType "directory" -Force -ErrorAction SilentlyContinue
+		$MessageInitialisation = "Created `"$($env:ProgramData)\$($Settings.config.BrandName)`""
+	}

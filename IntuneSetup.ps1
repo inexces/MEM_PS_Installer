@@ -18,9 +18,9 @@
   powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
 	
 .NOTES
-  Version:        1.8
-  Author:         Marcus Jaken ~ Microsoft Cloud Consultant @ Advantive B.V
-  Creation Date:  2021-05-19
+- Version:        1.8.1
+- Author:         Marcus Jaken ~ Microsoft Cloud Consultant @ Advantive B.V
+- Creation Date:  2021
   
 #>
 
@@ -46,10 +46,6 @@ $MessageInput =  "Setting Variables for $($Settings.config.BrandName); $($Settin
 
 #Create Company-directory & Eventlog
 New-EventLog -LogName $($Settings.config.BrandName) -Source $Package -ErrorAction SilentlyContinue
-# if(!(Test-Path "$($env:ProgramData)\$($Settings.config.BrandName)")) { 
-# New-Item -Path "$($env:ProgramData)" -Name "$($Settings.config.BrandName)" -ItemType "directory" -Force -ErrorAction SilentlyContinue
-# $MessageInitialisation = "Created `"$($env:ProgramData)\$($Settings.config.BrandName)`""
-# }
 
 #---------------------------------------------------------[Functions]------------------------------------------------------------
 
