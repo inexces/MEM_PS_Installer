@@ -39,7 +39,7 @@ Install with MSIEXEC advanced
 	$msiargs = @(
 		"/i"
 		"`"$msifile`""
-		'TRANSFORMS="Img\x64\en-us\ILT\inventor.mst;Img\x64\ILT\inventor-INTUNE-MOBA.mst"'
+		'TRANSFORMS="Img\x64\en-us\ILT\inventor.mst;Img\x64\ILT\inventor-INTUNE.mst"'
 		'ADSK_EULA_STATUS="#1"'
 		'ADSK_SOURCE_ROOT="Img\"'
 		'FILESINUSETEXT=""'
@@ -60,9 +60,9 @@ SET USER RIGHTS
 			Set-Acl -path C:\DIR $acl
 		}
 COPY SHORTCUT DESKTOP
-	Copy-Item "$PSScriptRoot\Modeling 20 MOBA.lnk" -Destination "C:\Users\Public\Desktop\Modeling 20 MOBA.lnk" -Force
+	Copy-Item "$PSScriptRoot\Modeling 20.lnk" -Destination "C:\Users\Public\Desktop\Modeling 20.lnk" -Force
 COPY SHORTCUT STARTMENU
-	Copy-Item "$PSScriptRoot\Modeling 20 MOBA.lnk" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Modeling 20 MOBA.lnk" -Force
+	Copy-Item "$PSScriptRoot\Modeling 20.lnk" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Modeling 20.lnk" -Force
 Delete Desktop ICON
 	Remove-Item -Force "C:\Users\Public\Desktop\DWG TrueView 2021 - English.lnk"
 Create Shortcut
