@@ -52,7 +52,7 @@ Creation Date:  2021
 ###### TIMEOUT
 	Start-Sleep -s 15
 ###### SET USER RIGHTS
-	if((Test-Path C:\PRGS\PTC)) {
+	if((Test-Path C:\DIR)) {
 			$Acl = Get-Acl -Path "C:\DIR"
 			$sid = New-Object System.Security.Principal.SecurityIdentifier ([System.Security.Principal.WellKnownSidType]::BuiltinUsersSid, $null)
 			$permissions = New-Object System.Security.AccessControl.FileSystemAccessRule ($sid, 'Modify', 'ObjectInherit,ContainerInherit', 'None', 'Allow')
