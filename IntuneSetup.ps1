@@ -24,7 +24,7 @@
   
 #>
 
-param ($Type)
+param ($Type=Install)
 
 #----------------------------------------------------[Run script in 64bit]-------------------------------------------------------
 
@@ -90,7 +90,7 @@ EXIT $ErrorLevel
 
 WriteEventlog -GetMessage $MessageInput
 
-If ($Type -ine 'Uninstall') {
+If ($Type -ne 'Uninstall') {
 																				WriteEventlog -GetMessage "Starting Prerequisits"
 #[Prerequisits]----------------------------------------------------------------------------------------------------[Prerequisits]
 
@@ -112,7 +112,7 @@ If ($Type -ine 'Uninstall') {
 
 }
 
-ElseIf ($Type -ieq 'Uninstall') {
+ElseIf ($Type -eq 'Uninstall') {
 	
 																						                           $Error.Clear()
 																			  WriteEventlog -GetMessage "Starting Uninstallation"

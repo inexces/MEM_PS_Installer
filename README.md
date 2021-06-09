@@ -23,3 +23,7 @@ powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\Intun
 Version:        1.8
 Author:         Marcus Jaken ~ Microsoft Cloud Consultant @ Advantive B.V
 Creation Date:  2021-05-19
+
+.Code Snips
+Install with MSIEXEC
+	Start-Process -FilePath "$env:SystemRoot\System32\msiexec.exe" -ArgumentList "/update $($msp.FullName) /quiet" -Wait -Passthru
