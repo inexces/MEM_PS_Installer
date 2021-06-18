@@ -7,6 +7,7 @@ This script performs the installation or uninstallation of [PACKAGENAME]
 ## .DESCRIPTION
 This script is a framework and standardisation for installing apps focussed on Intune.
 It performs an install or uninstall depending on the "type" parameter.
+When using the script in USER-context, please adjust HKLM rights and create the logbook during 
   
 ## .INPUTS
 -Type		The type of deployment to perform. Options: [Install, Uninstall]. Default is: Install.
@@ -20,13 +21,15 @@ powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\Intun
 powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
 	
 ## .NOTES
-- Version:        1.8.1
-- Author:         Marcus Jaken ~ Microsoft ☁ Consultant @ Advantive B.V / marcus.jaken@advantive.nl
+- Version:        1.8.2
+- Author:         ⫻⫽ Marcus Jaken ~ Microsoft ☁ Consultant @ Advantive B.V
+				  ⫻⫽ marcus.jaken@advantive.nl
+				  ⫻⫽ Twitter: @MarcusJaken
 - Creation Date:  2021
 
 ## .CODESNIPS
 ###### Install with MSIEXEC
-	Start-Process -FilePath "$env:SystemRoot\System32\msiexec.exe" -ArgumentList "/update $($msp.FullName) /quiet" -Wait -Passthru
+	Start-Process -FilePath "$env:SystemRoot\System32\msiexec.exe" -ArgumentList "/i `"$PSScriptRoot\xxx.msi`" /qn" -Wait -Passthru
 ###### Uninstall with MSIEXEC
 	Start-Process -FilePath "$env:SystemRoot\System32\msiexec.exe" -ArgumentList "/x{} /qn" -Wait -Passthru
 ###### Install EXE
@@ -77,3 +80,13 @@ powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\Intun
 		New-Item -Path "$($env:ProgramData)" -Name "$($Settings.config.BrandName)" -ItemType "directory" -Force -ErrorAction SilentlyContinue
 		$MessageInitialisation = "Created `"$($env:ProgramData)\$($Settings.config.BrandName)`""
 	}
+###### Adjust rights HKLM for script in User Context.
+	$acl = Get-Acl "HKLM:\Software\$($Settings.config.BrandName)"
+	$person = [System.Security.Principal.NTAccount]"BuiltIn\Users"         
+	$access = [System.Security.AccessControl.RegistryRights]"FullControl"
+	$inheritance = [System.Security.AccessControl.InheritanceFlags]"ContainerInherit,ObjectInherit"
+	$propagation = [System.Security.AccessControl.PropagationFlags]"None"
+	$type = [System.Security.AccessControl.AccessControlType]"Allow"
+	$rule = New-Object System.Security.AccessControl.RegistryAccessRule($person,$access,$inheritance,$propagation,$type)
+	$acl.AddAccessRule($rule)
+	$acl |Set-Acl

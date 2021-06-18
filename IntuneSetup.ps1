@@ -18,8 +18,9 @@
   powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
 	
 .NOTES
-- Version:        1.8.1
-- Author:         Marcus Jaken ~ Microsoft Cloud Consultant @ Advantive B.V
+- Version:        1.8.2
+- Author:         ⫻⫻⫽ Marcus Jaken ~ Microsoft ☁ Consultant @ Advantive B.V ⫽⫻⫻
+				  Twitter: @marcusjaken
 - Creation Date:  2021
   
 #>
@@ -49,16 +50,16 @@ New-EventLog -LogName $($Settings.config.BrandName) -Source $Package -ErrorActio
 
 #---------------------------------------------------------[Functions]------------------------------------------------------------
 
-Function WriteEventlog {
+If ($Settings.config.log -eq '1') { Function WriteEventlog {
 		Param ( 
 			[Parameter(Mandatory=$true)]
 			[string]$GetMessage
 		)
 		$writemessage = "IntuneSetup: " + $Package + " - " + $GetMessage
 		Write-EventLog -LogName $($Settings.config.BrandName) -Source $Package -EventID 1 -EntryType "Information" -Message $writemessage -Category 1
-}
+} }
 
-Function RegisterInstallation() {
+If ($Settings.config.SetReg -eq '1') { Function RegisterInstallation() {
 	Param(
 		[Parameter(Mandatory=$True)][String]$ErrorLevel
 	)
@@ -71,6 +72,7 @@ Function RegisterInstallation() {
 	}
 EXIT $ErrorLevel
 } 
+
 Function UnregisterInstallation() {
 	Param(
 		[Parameter(Mandatory=$True)][String]$ErrorLevel
@@ -80,7 +82,7 @@ Function UnregisterInstallation() {
 		Remove-Item -Path Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)" -Force
 } 
 EXIT $ErrorLevel
-} 	
+} }
 
 #---------------------------------------------------------[Execution]------------------------------------------------------------
 
