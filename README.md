@@ -7,7 +7,7 @@ This script performs the installation or uninstallation of [PACKAGENAME]
 ## .DESCRIPTION
 This script is a framework and standardisation for installing apps focussed on Intune.
 It performs an install or uninstall depending on the "type" parameter.
-When using the script in USER-context, please adjust HKLM rights and create the logbook during 
+When using the script in USER-context, please adjust HKLM rights accordingly and create the logbook during Autopilot deployment.
   
 ## .INPUTS
 - Type				Variable: The type of deployment to perform. Options: [Install, Uninstall]. Default is: Install.
