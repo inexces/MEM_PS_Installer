@@ -1,5 +1,5 @@
 # MEM_PS_Installer
-Simple Intune Software Package Framework
+Short Intune Software Package Framework
 
 ## .SYNOPSIS
 This script performs the installation or uninstallation of [PACKAGENAME]
