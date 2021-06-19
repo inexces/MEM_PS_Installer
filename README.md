@@ -10,7 +10,13 @@ It performs an install or uninstall depending on the "type" parameter.
 When using the script in USER-context, please adjust HKLM rights and create the logbook during 
   
 ## .INPUTS
--Type		The type of deployment to perform. Options: [Install, Uninstall]. Default is: Install.
+- Type				Variable: The type of deployment to perform. Options: [Install, Uninstall]. Default is: Install.
+- IntuneConfig.xml 	Brandname:		Company name
+					Packagename:	Name of the package
+					AppVersion:		Software version	
+					PackVersion:	Package version	
+					log:			Enable the eventlog function [1=on 0=off]	
+					SetReg:			Enable the reg tattoo [1=on 0=off]
   
 ## .OUTPUTS
 Registry Entry: HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages
