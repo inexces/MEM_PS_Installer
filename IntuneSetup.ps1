@@ -18,8 +18,8 @@
   powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
 	
 .NOTES
-- Version:        1.8.2
-- Author:         ⫻⫻⫽ Marcus Jaken ~ Microsoft ☁ Consultant @ Advantive B.V ⫽⫻⫻
+- Version:        1.8.3
+- Author:         â«»â«»â«½ Marcus Jaken ~ Microsoft â˜ Consultant @ Advantive B.V â«½â«»â«»
 				  Twitter: @marcusjaken
 - Creation Date:  2021
   
@@ -71,16 +71,17 @@ If ($Settings.config.SetReg -eq '1') { Function RegisterInstallation() {
 		WriteEventlog -GetMessage "Error during installation $Error, total errors: $($error.count)"
 	}
 EXIT $ErrorLevel
-} 
+} }
 
-Function UnregisterInstallation() {
+If ($Settings.config.SetReg -eq '1') { Function UnregisterInstallation() {
 	Param(
 		[Parameter(Mandatory=$True)][String]$ErrorLevel
 	)
 	If ($ErrorLevel -eq "0") {
 		WriteEventlog -GetMessage "Deleted Registry installation key HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)"
 		Remove-Item -Path Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)" -Force
-} 
+		new-itemproperty Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)" -Name "Uninstalled" -Value $Present -PropertyType String -Force -ErrorAction SilentlyContinue
+    } 
 EXIT $ErrorLevel
 } }
 
