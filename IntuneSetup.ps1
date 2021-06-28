@@ -81,7 +81,9 @@ If ($Settings.config.SetReg -eq '1') { Function UnregisterInstallation() {
 		WriteEventlog -GetMessage "Deleted Registry installation key HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)"
 		Remove-Item -Path Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)\$($Settings.config.App.PackVersion)" -Force
 		new-itemproperty Registry::"HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages\$($Settings.config.App.Packagename)\$($Settings.config.App.AppVersion)" -Name "Uninstalled" -Value $Present -PropertyType String -Force -ErrorAction SilentlyContinue
-    } 
+    } Else {
+		WriteEventlog -GetMessage "Error during uninstallation $Error, total errors: $($error.count)"
+	}
 EXIT $ErrorLevel
 } }
 
