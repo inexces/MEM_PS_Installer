@@ -14,18 +14,20 @@
   Eventlog Entry: in BrandName log
 
 .EXAMPLE
-  powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1
-  powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
+  powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1"
+  powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1" -Type "Uninstall"
 	
 .NOTES
 - Version:        1.8.3
-- Author:         â«»â«»â«½ Marcus Jaken ~ Microsoft â˜ Consultant @ Advantive B.V â«½â«»â«»
+- Author:         Ã¢Â«Â»Ã¢Â«Â»Ã¢Â«Â½ Marcus Jaken ~ Microsoft Ã¢ËœÂ Consultant @ Advantive B.V Ã¢Â«Â½Ã¢Â«Â»Ã¢Â«Â»
 				  Twitter: @marcusjaken
 - Creation Date:  2021
   
 #>
 
-param ($Type="Install")
+param(
+    $type = "Install"
+    )
 
 #----------------------------------------------------[Run script in 64bit]-------------------------------------------------------
 
@@ -91,7 +93,7 @@ EXIT $ErrorLevel
 
 WriteEventlog -GetMessage $MessageInput
 
-If ($Type -ne 'Uninstall') {
+If ($Type -eq 'Install') {
 																				WriteEventlog -GetMessage "Starting Prerequisits"
 #[Prerequisits]----------------------------------------------------------------------------------------------------[Prerequisits]
 
@@ -101,6 +103,11 @@ If ($Type -ne 'Uninstall') {
 		
 																				WriteEventlog -GetMessage "Starting Installation"
 #[Instalation]------------------------------------------------------------------------------------------------------[Instalation]
+
+	if(!(Test-Path "c:\installation")) { 
+		New-Item -Path "c:\" -Name "installation" -ItemType "directory" -Force -ErrorAction SilentlyContinue
+		$MessageInitialisation = "Created `"$($env:ProgramData)\$($Settings.config.BrandName)`""
+	}
 		
 #[/Instalation]----------------------------------------------------------------------------------------------------[/Instalation]
 																			   WriteEventlog -GetMessage "Finishing Installation"		
@@ -113,12 +120,17 @@ If ($Type -ne 'Uninstall') {
 
 }
 
+
 ElseIf ($Type -eq 'Uninstall') {
-	
 																						                           $Error.Clear()
 																			  WriteEventlog -GetMessage "Starting Uninstallation"
 #[Uninstallation]------------------------------------------------------------------------------------------------[Uninstallation]
-		
+
+	if(!(Test-Path "c:\uninstallation")) { 
+		New-Item -Path "c:\" -Name "uninstallation" -ItemType "directory" -Force -ErrorAction SilentlyContinue
+		$MessageInitialisation = "Created `"$($env:ProgramData)\$($Settings.config.BrandName)`""
+	}
+
 #[/Uninstallation]----------------------------------------------------------------------------------------------[/Uninstallation]
 																		     WriteEventlog -GetMessage "Finishing Uninstallation"
 
