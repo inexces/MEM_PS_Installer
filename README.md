@@ -23,8 +23,8 @@ Registry Entry: HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages
 Eventlog Entry: in BrandName log
   
 ## .EXAMPLE
-powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1
-powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
+powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1"
+powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1" -Type "Uninstall"
 	
 ## .NOTES
 - Version:        1.8.2
