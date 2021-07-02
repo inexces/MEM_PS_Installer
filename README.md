@@ -6,7 +6,6 @@ This script performs the installation or uninstallation of [PACKAGENAME]
   
 ## .DESCRIPTION
 This script is a framework and standardisation for installing apps focussed on Intune.
-It performs an install or uninstall depending on the "type" parameter.
 When using the script in USER-context, please adjust HKLM rights accordingly and create the logbook during Autopilot deployment.
   
 ## .INPUTS
@@ -22,12 +21,8 @@ When using the script in USER-context, please adjust HKLM rights accordingly and
 Registry Entry: HKLM\SOFTWARE\$($Settings.config.BrandName)\Packages
 Eventlog Entry: in BrandName log
   
-## .EXAMPLE
-powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Install"
-powershell.exe -executionpolicy bypass -noprofile -noninteractive -file ".\IntuneSetup.ps1 -Type "Uninstall"
-	
 ## .NOTES
-- Version:        1.8.2
+- Version:        1.9
 - Author:         ⫻⫽ Marcus Jaken ~ Microsoft ☁ Consultant @ Advantive B.V
 				  ⫻⫽ marcus.jaken@advantive.nl
 				  ⫻⫽ Twitter: @MarcusJaken
