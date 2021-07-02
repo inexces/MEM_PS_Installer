@@ -1,11 +1,8 @@
 <Config>
-  <Brandname>[Company]</Brandname>
+  <Brandname>CompanyName</Brandname>
   <App>
-    <Packagename>Teamviewer Host</Packagename>
-    <AppVersion>v15.17.6</AppVersion>
+    <Packagename>Packagename</Packagename>
+    <AppVersion>v1.0</AppVersion>
     <PackVersion>1.0</PackVersion>
   </App>
-  <log>1</log>
-  <EventLogSrc>MEM_PS_Installer</EventLogSrc>
-  <SetReg>1</SetReg> 
 </Config>
